@@ -1,44 +1,42 @@
 <template>
     <div>
         
-        <div class="product-item" v-for="variant in variants" :key="variant.Id">
+        <div class="product-item" v-for="ac in shoeAC" :key="ac.Id">
 
             <div class="product-image">
-            <img :src="variant.Image">
+            <img :src="ac.Image">
             </div>
 
             <div class="Product-info" >
                 <div class="info-content">
-                <h1>{{variant.Title}}</h1>
-                <p v-if="inStock">In Stock</p>
+                <h1>{{ac.Title}}</h1>
+                <p v-if="ac.inStock">In Stock</p>
                 <p v-else>Out of Stock</p>
-                <p>Color: {{variant.Color}}</p>
-                <p>Price: {{variant.Price}}</p>
+                <p>Color: {{ac.Color}}</p>
+                <p>Price: {{ac.Price}}</p>
                 <p>Shipping Fee: Free Shipping</p>
                 <br>
                 <p ><b>Description:</b></p>
-                <ul>
-                    <li v-for="Description in Descriptions" :key="Description">{{Description}}</li>
-                </ul>
+                    <p>{{ac.description}}</p>
                 <br>
-                <p class="favorite" @click="addToFavorite">Add to Favorites</p>
+                <!--<p class="favorite" @click="">Add to Favorites</p>-->
                 </div>
                 <br>
                 <div class="picture-content">
-               <img :src="variant.Image">
+               <img :src="ac.Image">
 
                
                    <div class="quantity-container">
                    Quantity:
-                   <button @click="addQuantity">+</button>
-                   <input type="number" max="99" v-model="quaN">
-                   <button @click="removeQuantity">-</button>
+                   <button @click="addQuantityAC">+</button>
+                   <input type="number" max="99" v-model="ac.quaN">
+                   <button @click="reduceQuantityAC">-</button>
                    </div>
              
 
                <div class="btn-cart">
-                   <button class="add" @click="addCarts">ADD TO CART</button>
-                   <button class="remove" @click="removeToCart">Remove to Cart</button>
+                   <button class="add" @click="">ADD TO CART</button>
+                   <button class="remove" @click="">Remove to Cart</button>
                </div>
                </div>
             </div>
@@ -50,62 +48,30 @@
 </template>
 <script>
 import review from '../review.vue'
+import { stat } from 'fs';
+import {mapActions} from 'vuex'
+import {mapMutations} from 'vuex'
 
 export default {
-    props: ['userCount',],
-    name: 'ShoeAC',
+    name: 'Bluecap',
     components: {
         review,
     },
     data() {
         return {
-            inStock: true,
-            quaN: 0,
-            variants: [
-            {
-                Title: 'Shoe AC',
-                Id: 1005,
-                Image: require('../../assets/newArrival/arrival-5.jpg'),
-                Price: '4,600 Pesos',
-                Color: 'Green',
-                }
-            ],
-            Descriptions: [
-                '-Sport', '-Quality Check'
-            ],
-            name: null,
-            textarea: null,
-            rating: null,
+
+        }
+    },
+    computed: {
+        shoeAC() {
+            return this.$store.state.shoeAC
         }
     },
     methods: {
-        //add quantity
-        addQuantity: function() {
-            if (this.quaN < 99) {
-                this.quaN += 1
-            }
-        },
-        removeQuantity: function() {
-            if (this.quaN > 0) {
-                this.quaN -= 1
-            }
-        },
-        //add cart
-        addCarts() {
-        this.$emit('user-count', this.userCount  += this.quaN)
-        
-        this.quaN = 0
-        },
-        removeToCart() {
-         if (this.userCount > 0) {
-             this.$emit('user-count', this.userCount  -= 1)
-         }
-        },
-        //add to favorite
-        addToFavorite: function() {
-            const variantId = this.variants.map(variant => `${variant.Title}` )
-            this.$emit('add-favorite', variantId)
-        },
+        ...mapMutations([
+            'addQuantityAC',
+            'reduceQuantityAC',
+        ])
     },
 }
 </script>
@@ -216,6 +182,9 @@ input::-webkit-inner-spin-button {
 .btn-cart {
     display: flex;
     margin: 20px 0px;
+}
+.btn-cart button {
+    font-size: 10px;
 }
 .Product-info img {
     margin: 30px 50px;

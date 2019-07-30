@@ -1,11 +1,10 @@
 <template>
   <div id="app">
     <div class="cart">
-    <p>My Cart({{userCount}})</p>
+    
     </div>
     <headers />
-    <router-view :user-count="userCount" @user-count="userCount = $event"
-     @add-favorite="adding" :variants="variants"></router-view>
+    <router-view ></router-view>
   </div>
   
 </template>
@@ -23,14 +22,9 @@ export default {
   },
   data() {
     return {
-      userCount: 0,
-      variants: [],
     }
   },
   methods: {
-    adding: function(events) {
-      this.variants.push(events)
-    }
   }
 }
 //show nav desktop

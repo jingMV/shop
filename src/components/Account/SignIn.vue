@@ -57,6 +57,11 @@ export default {
                 }
                 ]
         }
+    },
+    methods: {
+        submitMe: function() {
+            
+        }
     }
 }
 </script>

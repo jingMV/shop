@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuerouter from 'vue-router';
+import { store } from './store/store'
 import App from './App.vue';
 import Home from './components/Home.vue';
 import Favorite from './components/Favorite.vue';
@@ -72,5 +73,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')
